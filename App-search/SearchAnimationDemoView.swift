@@ -17,8 +17,8 @@ struct SearchAnimationDemoView: View {
     private let pauseSeconds: Double = 1.0
     private let bounceIntensity: CGFloat = 0.75
     private let glintIntensity: Double = 0.55
-    private let subtitleCycleSeconds: Double = 2.0
     private let subtitleFadeSeconds: Double = 0.18
+    private let animationCycleSeconds: Double = (79.0 / 60.0) + 1.0
     private let subtitles = [
         "Готовим лучшие предложения",
         "Проверяем, все ли на месте",
@@ -84,18 +84,18 @@ struct SearchAnimationDemoView: View {
 
     private func subtitleIndex(at time: Double) -> Int {
         guard !subtitles.isEmpty else { return 0 }
-        let cycle = Int(floor(time / subtitleCycleSeconds))
+        let cycle = Int(floor(time / animationCycleSeconds))
         let index = cycle % subtitles.count
         return max(0, min(subtitles.count - 1, index))
     }
 
     private func subtitleOpacity(at time: Double) -> Double {
-        let t = time.truncatingRemainder(dividingBy: subtitleCycleSeconds)
+        let t = time.truncatingRemainder(dividingBy: animationCycleSeconds)
         let fade = subtitleFadeSeconds
         if fade <= 0 { return 1 }
 
         let fadeIn = min(1, max(0, t / fade))
-        let fadeOut = min(1, max(0, (subtitleCycleSeconds - t) / fade))
+        let fadeOut = min(1, max(0, (animationCycleSeconds - t) / fade))
         return min(fadeIn, fadeOut)
     }
 
