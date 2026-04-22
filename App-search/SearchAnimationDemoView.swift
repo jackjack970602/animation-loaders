@@ -106,9 +106,10 @@ struct SearchAnimationDemoView: View {
     }
 
     private func bounceOpacity(at time: Double) -> Double {
-        // 1.0 at rest/pause, slightly dimmer at the top of the bounce.
+        // 1.0 at rest/pause, much dimmer while moving.
         let lift = bounceLift(at: time) // 0...1 when moving up (negative Y)
-        return 1.0 - 0.22 * lift
+        let fade = pow(lift, 0.8)
+        return 1.0 - 0.78 * fade
     }
 
     private func bounceLift(at time: Double) -> Double {
