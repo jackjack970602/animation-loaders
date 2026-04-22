@@ -44,7 +44,7 @@ struct SearchAnimationDemoView: View {
                                 .scaledToFit()
                                 .frame(width: size, height: size)
                                 .offset(y: bounceOffset(at: baseTime + phaseDelay, size: size))
-                                .opacity(bounceOpacity(at: baseTime + phaseDelay))
+                                .opacity(shieldOpacity(for: index))
                                 .overlay {
                                     ShieldGlintOverlay(
                                         progress: glintProgress(at: baseTime + phaseDelay),
@@ -105,11 +105,17 @@ struct SearchAnimationDemoView: View {
         return CGFloat(rawY) * scale * bounceIntensity
     }
 
-    private func bounceOpacity(at time: Double) -> Double {
-        // 1.0 at rest/pause, much dimmer while moving.
-        let lift = bounceLift(at: time) // 0...1 when moving up (negative Y)
-        let fade = pow(lift, 0.8)
-        return 1.0 - 0.78 * fade
+    private func shieldOpacity(for index: Int) -> Double {
+        switch index {
+        case 0:
+            return 0.35
+        case 1:
+            return 0.55
+        case 2:
+            return 0.75
+        default:
+            return 1.0
+        }
     }
 
     private func bounceLift(at time: Double) -> Double {
